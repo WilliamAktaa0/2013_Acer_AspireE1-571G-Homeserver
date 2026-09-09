@@ -59,79 +59,100 @@ To keep this as lightweight and minimal as possible, we will keep standard syste
 Since we wiped the drive during paritioning, it should be safe to install grub. Select yes to do so and wait for the installation to finish.
 ### 9- Boot:
 After installation, your system should reboot. After, simply enter os through the grub selection menu by simply pressing enter and you should be greeted by cli. Congrats, you just installed Debian. Simply enter username and password and you are in.
-## Setup:
-### Login to Root User 
-    su -
-and enter root password
-### Update Apt and Install Sudo:
-    apt update && apt install sudo -y
+
+## Setup
+### Login to Root User
+```bash
+su -
+```
+*(Enter your root password when prompted)*
+
+### Update Apt and Install Sudo
+```bash
+apt update && apt install sudo -y
+```
+
 ### Add Yourself to the Sudoers File
-    sudo usermod -aG sudo username
-(replace "username" with your actual username)
-### Exit and Apply changes:
-    exit
-    newgrp sudo
+```bash
+usermod -aG sudo username
+```
+*(Replace "username" with your actual Debian account username)*
+
+### Exit and Apply Changes
+```bash
+exit
+newgrp sudo
+```
+
 ### Disable the Laptop Lid Sleep
- Open the login config file:
-    `sudo nano /etc/systemd/logind.conf'
-  `Find `#HandleLidSwitch=suspend` and delete the "#". Finally, Ctrl+O to write changes to file and Ctrl+X to exit.
-  
-  After, Restart the systemd service to apply the changes:
-    `sudo systemctl restart systemd-logind`
+Open the login configuration file:
+```bash
+sudo nano /etc/systemd/logind.conf
+```
+Find the line `#HandleLidSwitch=suspend`, remove the `#` symbol, and change it to:
+```text
+HandleLidSwitch=ignore
+```
+Press `Ctrl+O` then `Enter` to save, and `Ctrl+X` to exit the editor.
+
+Restart the systemd logging service to apply changes instantly:
+```bash
+sudo systemctl restart systemd-logind
+```
+
+---
+
+## Install Docker
+```bash
+sudo apt-get update && sudo apt-get install -y ca-certificates curl
+curl -fsSL https://docker.com -o get-docker.sh
+sudo sh get-docker.sh
+rm get-docker.sh
+```
+
+---
+
+## Free Network Port 53
+Debian includes a default DNS service called `systemd-resolved` that claims network Port 53. You must disable this native daemon before launching Pi-hole, or the container will fail to start due to a port conflict.
+
+### Stop and Disable System DNS Daemons
+```bash
+sudo systemctl stop systemd-resolved
+sudo systemctl disable systemd-resolved
+```
+
+---
 
 ## Directory Structure
-I plan to keep my data organized to prepare for future ssd upgrades, so I'm going to create a dedicated folder for each software service:
-### Pi hole:
-    mkdir -p ~/homeserver/pihole/config ~/homeserver/pihole/dnsmasq.d
-    cd ~/homeserver/pihole
+To keep our data organized and ready for potential future SSD storage upgrades, create a dedicated directory structure for the container services:
 
-## Create the Docker Compose File Inside /homeserver/pihole:
-    nano pihole.yaml
-Note: Make sure you are in the previously created Pihole directory. Should look like this:
- `yourusername@homeserver:~/homeserver/pihole$: nano pihole.yaml`
-## Paste the Following Official Pi-hole Docker Compose Block into the File:
-The easiest way to get up and running with Pi-hole on Docker is to use the official quick-start docker-compose.yml template:
+### Pi-hole Directories
+```bash
+mkdir -p ~/homeserver/pihole/
+cd ~/homeserver/pihole
+```
 
- ```dockerfile
-# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
-services:
-  pihole:
-    container_name: pihole
-    image: pihole/pihole:latest
-    ports:
-      # DNS Ports
-      - "53:53/tcp"
-      - "53:53/udp"
-      # Default HTTP Port
-      - "80:80/tcp"
-      # Default HTTPs Port. FTL will generate a self-signed certificate
-      - "443:443/tcp"
-      # Uncomment the below if using Pi-hole as your DHCP Server
-      #- "67:67/udp"
-      # Uncomment the line below if you are using Pi-hole as your NTP server
-      #- "123:123/udp"
-    environment:
-      # Set the appropriate timezone for your location from
-      # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones, e.g:
-      TZ: 'Europe/London'
-      # Set a password to access the web interface. Not setting one will result in a random password being assigned
-      FTLCONF_webserver_api_password: 'correct horse battery staple'
-      # If using Docker's default   `bridge` network setting the dns listening mode should be set to 'ALL'
-      FTLCONF_dns_listeningMode: 'ALL' 
-    # Volumes store your data between container upgrades
-    volumes:
-      # For persisting Pi-hole's databases and common configuration file
-      - './etc-pihole:/etc/pihole'
-      # Uncomment the below if you have custom dnsmasq config files that you want to persist. Not needed for most starting fresh with Pi-hole v6. If you're upgrading from v5 you and have used this directory before, you should keep it enabled for the first v6 container start to allow for a complete migration. It can be removed afterwards. Needs environment variable FTLCONF_misc_etc_dnsmasq_d: 'true'
-      #- './etc-dnsmasq.d:/etc/dnsmasq.d'
-    cap_add:
-      # See https://docs.pi-hole.net/docker/configuration/#note-on-capabilities
-      # Required if you are using Pi-hole as your DHCP server, else not needed
-      - NET_ADMIN
-      # Required if you are using Pi-hole as your NTP client to be able to set the host's system time
-      - SYS_TIME
-      # Optional, if Pi-hole should get some more processing time
-      - SYS_NICE
-    restart: unless-stopped
-``` 
-Run docker compose up -d to build and start Pi-hole (on older systems, the syntax here may be docker-compose up -d)  
+### Launching the Container
+Run this single-line command to deploy Pi-hole immediately without needing to format a YAML configuration file:
+
+```bash
+sudo docker run -d \
+  --name pihole \
+  -p 53:53/tcp \
+  -p 53:53/udp \
+  -p 80:80/tcp \
+  -e TZ='Europe/London' \
+  -e FTLCONF_webserver_api_password='your_secure_password' \
+  -e FTLCONF_dns_listeningMode='ALL' \
+  -v /root/homeserver/pihole/config:/etc/pihole \
+  --restart=unless-stopped \
+  pihole/pihole:latest
+```
+
+## Post-Installation Verification
+1. **Check Service Status:** Verify the container is running.
+   ```bash
+   sudo docker ps
+   ```
+2. **Access the Dashboard:** Open a browser and go to `http://<YOUR_SERVER_IP>/admin`.
+3. **Connect Clients:** You could configure the router to go through the pihole before devices however for now I'm just going to manually connect my devices.
