@@ -61,6 +61,9 @@ Since we wiped the drive during paritioning, it should be safe to install grub. 
 After installation, your system should reboot. After, simply enter os through the grub selection menu by simply pressing enter and you should be greeted by cli. Congrats, you just installed Debian. Simply enter username and password and you are in.
 
 ## Setup
+From this step onwards, you can get remove root access into the freshly installed Debian system via your main computer with ssh 
+### (Optional) Disable dgpu:
+Before booting into the OS, go to the bios and disable the GPU there. This only applies to laptops like this old acer where it's dgpu won't help with anything and will just draw exra heat and electricity.
 ### Login to Root User
 ```bash
 su -
@@ -155,4 +158,4 @@ sudo docker run -d \
    sudo docker ps
    ```
 2. **Access the Dashboard:** Open a browser and go to `http://<YOUR_SERVER_IP>/admin`.
-3. **Connect Clients:** You could configure the router to go through the pihole before devices however for now I'm just going to manually connect my devices.
+3. **Connect Clients:** You could configure the router to go through the pihole before devices however for now I'm just going to manually change my devices' IPV4 into the IP address of our little server.
