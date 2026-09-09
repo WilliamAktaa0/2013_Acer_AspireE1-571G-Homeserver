@@ -1,8 +1,10 @@
 # 2013 Acer Aspire E1-571G HomeServer:
 
 ## Specs:
-Intel Core(R) Core i5-3230M (4) @3.20 Ghz and Intel 3rd Gen Core processor Graphics Controller @1.10GHz (integrated).
+Intel Core(R) Core i5-3230M (4) @3.20 Ghz | Intel 3rd Gen Core processor Graphics Controller @1.10GHz (integrated).
+
 NVIDIA GeForce 610M/710M/810M/820M / GT 620M 625M / 630M / 720M (Discrete).
+
 4GB DDR3 and 500GB HDD.
 ## Software specifications:
 Debian 13.6.0 amd64 netinst and docker containers to run each service in.
