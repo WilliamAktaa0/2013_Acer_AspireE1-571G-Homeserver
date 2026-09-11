@@ -126,6 +126,8 @@ sudo systemctl disable systemd-resolved
 
 ---
 
+## Pihole:
+
 ## Directory Structure
 To keep our data organized and ready for potential future SSD storage upgrades, create a dedicated directory structure for the container services:
 
@@ -159,3 +161,21 @@ sudo docker run -d \
    ```
 2. **Access the Dashboard:** Open a browser and go to `http://<YOUR_SERVER_IP>/admin`.
 3. **Connect Clients:** You could configure the router to go through the pihole before devices however for now I'm just going to manually change my devices' IPV4 into the IP address of our little server.
+
+## Jellyfin:
+    
+### Jellyfin Directories:
+    mkdir -p ~/homeserver/jellyfin/config
+    mkdir -p ~/homeserver/jellyfin/cache
+    mkdir -p ~/homeserver/jellyfin/media/movies
+    mkdir -p ~/homeserver/jellyfin/media/tvshows
+
+### Launching the Container:
+    sudo docker run -d \
+    --name jellyfin \
+    --net=host \
+    -v /root/homeserver/jellyfin/config:/config \
+    -v /root/homeserver/jellyfin/cache:/cache \
+    -v /root/homeserver/jellyfin/media:/media:ro \
+    --restart=unless-stopped \
+    jellyfin/jellyfin:latest
