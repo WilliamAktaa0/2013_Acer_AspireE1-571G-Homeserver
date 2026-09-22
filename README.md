@@ -21,7 +21,7 @@ Debian 13.6.0 amd64 netinst and docker containers to run each service in.
 A network-wide ad blocker and privacy tool that acts as a Domain Name System (DNS) sinkhole for all devices connected to your home network.
 ### JellyFin:
 A volunteer-built media solution that allows you to stream to any device from the *totally legal license bought* media collection you have on your server. 
-### Retro webpage:
+### WebRevival website:
 Retro web page or community platform reminiscent of the early 1990s and early 2000s days of the internet before corporate takeover.
 ### Miniflux:
 a minimalist, open-source, and self-hosted RSS and Atom feed reader designed for speed, simplicity, and distraction-free reading.
@@ -135,7 +135,7 @@ sudo systemctl disable systemd-resolved
 ## Directory Structure
 To keep our data organized and ready for potential future SSD storage upgrades, create a dedicated directory structure for the container services:
 
-### Pi-hole Directories
+### Pihole Directories
 ```bash
 mkdir -p ~/homeserver/pihole/
 cd ~/homeserver/pihole
@@ -185,13 +185,13 @@ sudo docker run -d \
     jellyfin/jellyfin:latest
 
 
-## Setup:
+## Jellyfin Setup:
 
 Go to a web browser on your main computer and paste
 
     http://<SERVERIP>:8096
     
-*replace "SERVERIP" with your server's actual local ip* 
+*replace "SERVERIP" with you14 Year Old Nerd From Lebanon. I Love Programming, GNU/Linux and Other Open Source Operating Systems, As Well As Repurposing Old Tech.r server's actual local ip* 
 
 
 Now that you have opened Jellyfin in your browser, you will see the Jellyfin Welcome Screen. Simply set a root username and password, add your media files, choose preferred language, and make sure to allow remote connections and enable automatic port mapping (UPnP).
