@@ -194,7 +194,10 @@ Go to a web browser on your main computer and paste
 *replace "SERVERIP" with you14 Year Old Nerd From Lebanon. I Love Programming, GNU/Linux and Other Open Source Operating Systems, As Well As Repurposing Old Tech.r server's actual local ip* 
 
 
-Now that you have opened Jellyfin in your browser, you will see the Jellyfin Welcome Screen. Simply set a root username and password, add your media files, choose preferred language, and make sure to allow remote connections and enable automatic port mapping (UPnP).
+Now that you have opened Jellyfin in your browser, you will see the Jellyfin Welcome Screen. 
+
+
+Simply set a root username and password, add your media files, choose preferred language, and make sure to allow remote connections and enable automatic port mapping (UPnP).
 
 
 To connect your additional devices to the server and access all your media, simply download the official Jellyfin software available android, ios, windows, linux, and macos. 
