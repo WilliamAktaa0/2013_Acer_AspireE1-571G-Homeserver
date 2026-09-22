@@ -1,11 +1,15 @@
-# 2013 Acer Aspire E1-571G HomeServer:
+# Old Laptop/Computer Homeserver Guide:
 
-## Specs:
+## Specs and Model of the Old Laptop I'm using:
+Aspire E1-571G
+
 Intel Core(R) Core i5-3230M (4) @3.20 Ghz | Intel 3rd Gen Core processor Graphics Controller @1.10GHz (integrated).
 
 NVIDIA GeForce 610M/710M/810M/820M / GT 620M 625M / 630M / 720M (Discrete).
 
 4GB DDR3 and 500GB HDD.
+
+
 ## Software specifications:
 Debian 13.6.0 amd64 netinst and docker containers to run each service in.
 
@@ -179,3 +183,21 @@ sudo docker run -d \
     -v /root/homeserver/jellyfin/media:/media:ro \
     --restart=unless-stopped \
     jellyfin/jellyfin:latest
+
+
+## Setup:
+
+Go to a web browser on your main computer and paste
+
+    http://<SERVERIP>:8096
+    
+*replace "SERVERIP" with your server's actual local ip* 
+
+
+Now that you have opened Jellyfin in your browser, you will see the Jellyfin Welcome Screen. Simply set a root username and password, add your media files, choose preferred language, and make sure to allow remote connections and enable automatic port mapping (UPnP).
+
+
+To connect your additional devices to the server and access all your media, simply download the official Jellyfin software available android, ios, windows, linux, and macos. 
+
+
+For IOS, AppleTV, and Apple Sillicon Macs the third party app Swiftfin is highly recommended for a faster native experience.
