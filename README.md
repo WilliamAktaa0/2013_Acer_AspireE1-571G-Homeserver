@@ -21,6 +21,8 @@ Debian 13.6.0 amd64 netinst and docker containers to run each service in.
 A network-wide ad blocker and privacy tool that acts as a Domain Name System (DNS) sinkhole for all devices connected to your home network.
 ### JellyFin:
 A volunteer-built media solution that allows you to stream to any device from the *totally legal license bought* media collection you have on your server. 
+### Searxng:
+A free internet metasearch engine which aggregates results from various search services and databases. Users are neither tracked nor profiled.
 ### WebRevival website:
 Retro web page or community platform reminiscent of the early 1990s and early 2000s days of the internet before corporate takeover.
 ### Miniflux:
@@ -204,3 +206,6 @@ To connect your additional devices to the server and access all your media, simp
 
 
 For IOS, AppleTV, and Apple Sillicon Macs the third party app Swiftfin is highly recommended for a faster native experience.
+
+
+## Searxng
